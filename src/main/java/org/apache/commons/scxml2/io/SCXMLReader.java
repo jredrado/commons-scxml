@@ -2514,7 +2514,9 @@ public final class SCXMLReader {
         if (configuration.factoryId != null && configuration.factoryClassLoader != null) {
             factory = XMLInputFactory.newFactory(configuration.factoryId, configuration.factoryClassLoader);
         }
-        factory.setEventAllocator(configuration.allocator);
+        if (configuration.allocator != null){
+            factory.setEventAllocator(configuration.allocator);
+        }
         if (factory.isPropertySupported(XMLInputFactory_JDK_PROP_REPORT_CDATA)) {
             factory.setProperty(XMLInputFactory_JDK_PROP_REPORT_CDATA, Boolean.TRUE);
         }
@@ -2523,8 +2525,13 @@ public final class SCXMLReader {
                 factory.setProperty(property.getKey(), property.getValue());
             }
         }
-        factory.setXMLReporter(configuration.reporter);
-        factory.setXMLResolver(configuration.resolver);
+        
+        if (configuration.reporter != null){
+            factory.setXMLReporter(configuration.reporter);
+        }
+        if (configuration.resolver != null){
+            factory.setXMLResolver(configuration.resolver);
+        }
 
         // Consolidate InputStream options
         InputStream urlStream = null;
